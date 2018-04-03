@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/routes/web.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/app/Http/Controllers/Settings/SettingsController.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/ventas/index.blade.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/productos/individuales/index.blade.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/layouts/includes/fragments/left.blade.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/ventas/fragments/modal-tarjeta-de-credito.blade.php</file>
-            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/ventas/fragments/modal-efectivo.blade.php</file>
+            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/app/Modelos/Empresa.php</file>
+            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/resources/views/productos/individuales/edit.blade.php</file>
+            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/app/Http/Controllers/VentasController.php</file>
+            <file>file:/Applications/MAMP/htdocs/mi2u/mercado/app/User.php</file>
         </group>
     </open-files>
 </project-private>

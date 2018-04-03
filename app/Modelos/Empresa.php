@@ -13,7 +13,7 @@ class Empresa extends Model
     }
     
     public function ventas() {
-        return $this->hasMany(Empresa::class);
+        return $this->hasMany(Ventas\VentaMaestro::class);
     }
     
 }
