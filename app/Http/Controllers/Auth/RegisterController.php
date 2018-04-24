@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Modelos\Empresa;
+use App\Library\Empresas\LEmpresas;
 
 class RegisterController extends Controller
 {
@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/panel';
 
     /**
      * Create a new controller instance.
@@ -66,9 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $empresa = new Empresa();
-        array_set($empresa, 'nombre', array_get($data, 'nombre_empresa'));
-        $empresa->save();
+        $empresa = LEmpresas::init($data);
         
         return User::create([
             'name' => $data['name'],

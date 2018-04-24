@@ -85,8 +85,23 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li class="nav-item dropdown">
-                        <a href="{{ route('settings.index') }}">
-                            <span>Pagos</span>
+                        <a href="{{ route('almacenes.index') }}">
+                            <span>Almacenes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="{{ route('canales.index') }}">
+                            <span>Canales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="{{ route('calidades.index') }}">
+                            <span>Control de calidad</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="{{ route('cupones.index') }}">
+                            <span>Cupones de descuento</span>
                         </a>
                     </li>
                 </ul>

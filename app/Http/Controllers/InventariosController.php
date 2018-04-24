@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class SettingsController extends Controller
+class InventariosController extends Controller
 {
     /**
      * Display a listing of the resource.

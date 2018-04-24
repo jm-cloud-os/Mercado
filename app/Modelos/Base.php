@@ -16,29 +16,6 @@ class Base extends Model
         static::addGlobalScope(new EmpresaScope());
     }
     
-    public function save(array $options = []) {
-        if ($this->validate()) {
-            return parent::save($options);
-        }
-        return false;
-    }
-
-    public function delete() {
-        if ($this->validate()) {
-            return parent::delete();
-        }
-        return false;
-    }
-
-    private function validate() {
-        if(auth()->check()){//for authenticated users
-            if (array_key_exists('empresa_id', $this->attributes) && $this->attributes['empresa_id'] == auth()->user()->empresa_id) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     /**
      * Overriddes default getAttributes function
      * $default param indicates if should perform default function or custom
