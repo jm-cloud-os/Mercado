@@ -16,4 +16,20 @@ class Empresa extends Model
         return $this->hasMany(Ventas\VentaMaestro::class);
     }
     
+    public function almacenes() {
+        return $this->hasMany(Almacen::class);
+    }
+    
+    public function canales() {
+        return $this->hasMany(Canal::class);
+    }
+    
+    public function calidades() {
+        return $this->hasMany(Calidad::class);
+    }
+    
+    public function inventarios() {
+        return $this->hasMany(Inventario::class);
+    }
+    
 }

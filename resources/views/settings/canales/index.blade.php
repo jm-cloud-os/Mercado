@@ -7,13 +7,13 @@
     <div class="row">
         <div class="col-sm-6">
             <h3 class="box-title">
-                Almacenes
+                Canales
             </h3>
         </div>
         <div class="col-sm-6">
             <div id="floating-buttons" class="btn-group pull-right" role="group">
-                <button class="btn btn-info" data-toggle="modal" data-target="#almacen-modal">
-                    <i class="fas fa-box"></i>
+                <button class="btn btn-info" data-toggle="modal" data-target="#canal-modal">
+                    <i class="fas fa-share-alt"></i>
                     Nuevo
                 </button>
             </div>
@@ -22,17 +22,17 @@
 
     <table class="table table-hover">
         <tbody>
-            @foreach($almacenes as $almacen)
-            <tr data-toggle="modal" data-target="#edit-almacen-modal-{{ array_get($almacen, 'id') }}">
-                <td>{{ array_get($almacen, 'nombre') }}</td>
+            @foreach($canales as $canal)
+            <tr data-toggle="modal" data-target="#edit-canal-modal-{{ array_get($canal, 'id') }}">
+                <td>{{ array_get($canal, 'nombre') }}</td>
             </tr>
-            @includeIf('settings.almacenes.fragments.edit-almacen-modal')
+            @include('settings.canales.fragments.edit-canal-modal')
             @endforeach
         </tbody>
     </table>
 
 </div>
 <!-- /.content -->
-@includeIf('settings.almacenes.fragments.almacen-modal')
+@include('settings.canales.fragments.canal-modal')
 
 @endsection

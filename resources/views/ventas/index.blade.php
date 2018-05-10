@@ -8,7 +8,12 @@
 
 <div class="bgc-white bd bdrs-3 p-20 mB-20">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
+            <h1>{{ array_get($almacen, 'nombre') }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
             <div class="input-group">
                 {{ Form::text('ventas_buscar', null, ['class' => 'form-control autocomplete', 'id' => 'input-search-items', 'placeholder' => 'Buscar producto o paquete']) }}
                 <span class="input-group-addon">
@@ -16,8 +21,12 @@
                 </span>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div id="floating-buttons" class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#almacenes-modal">
+                    <i class="fas fa-database"></i>
+                    @lang('Seleccionar almacen')
+                </button>
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-efectivo">
                     <i class="fas fa-money-bill-alt"></i>
                     @lang('Efectivo')
@@ -69,10 +78,9 @@
 </div>
 {{ Form::close() }}
 
-
 @include('ventas.fragments.modal-efectivo')
 @include('ventas.fragments.modal-tarjeta-de-credito')
-
+@include('settings.almacenes.fragments.almacenes-modal')
 
 @push('scripts')
 <script type="text/javascript">
@@ -95,8 +103,13 @@
         $('.pago-efectivo, .pago-tarjeta').val(total);
         $('.pago-efectivo').change();
     }
-
+    
     (function () {
+        
+        @if( !session('almacen') )
+            $('[data-target="#almacenes-modal"]').click();
+        @endif
+
         $('#modal-efectivo').on('shown.bs.modal', function () {
             $('.pago-efectivo:last').focus().select();
         });

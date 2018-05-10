@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Modelos\Inventario;
+use App\Statics\Catalogos;
 
 class InventariosController extends Controller
 {
@@ -13,7 +15,12 @@ class InventariosController extends Controller
      */
     public function index()
     {
-        //
+        $almacenes = Catalogos::almacenes(true);
+        
+        $data = [
+            'almacenes' => $almacenes
+        ];
+        return view('productos.inventarios.index')->with($data);
     }
 
     /**
@@ -34,7 +41,11 @@ class InventariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inventario = mapModel(new Inventario(), $request->all());
+        if(auth()->user()->empresa->inventarios()->save($inventario)){
+            return redirect()->route('inventarios.index', ['almacen' => array_get($request, 'almacen_id')])->with('message', 'Producto agregado al inventario correctamente');
+        }
+        abort(500);
     }
 
     /**

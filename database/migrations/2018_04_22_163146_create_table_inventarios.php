@@ -17,10 +17,12 @@ class CreateTableInventarios extends Migration
             $table->increments('id');
             $table->unsignedInteger('empresa_id')->nullable();
             $table->foreign('empresa_id')->references('id')->on('empresas')->onUpdate('cascade')->onDelete('cascade');
+            
             $table->unsignedInteger('producto_id')->nullable();
             $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('cascade');
+            
             $table->unsignedInteger('almacen_id')->nullable();
-            $table->foreign('almacen_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('almacen_id')->references('id')->on('almacenes')->onUpdate('cascade')->onDelete('cascade');
             $table->double('cantidad')->nullable();
             
             $table->timestamps();

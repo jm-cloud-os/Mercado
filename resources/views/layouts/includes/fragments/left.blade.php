@@ -65,6 +65,24 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="c-blue-500 fas fa-tasks"></i>
+                    </span>
+                    <span class="title">Inventarios</span>
+                    <span class="arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item dropdown">
+                        <a href="{{ route('inventarios.index') }}">
+                            <span>Altas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item">
                 <a class="sidebar-link" href="{{ route('ventas.create') }}">
                     <span class="icon-holder">
@@ -76,7 +94,7 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
-                        <i class="c-blue-500 fas fa-cog"></i>
+                        <i class="c-blue-500 fas fa-gears"></i>
                     </span>
                     <span class="title">Configuraci&oacute;n</span>
                     <span class="arrow">

@@ -7,6 +7,8 @@ use App\Modelos\Productos\Producto;
 use App\Modelos\Ventas\VentaMaestro;
 use App\Modelos\Ventas\VentaDetalle;
 use Carbon\Carbon;
+use App\Statics\Catalogos;
+use App\Modelos\Almacen;
 
 class VentasController extends Controller
 {
@@ -27,7 +29,10 @@ class VentasController extends Controller
      */
     public function create()
     {
-        $data = [];
+        $data = [
+            'almacenes' => Catalogos::almacenes(true),
+            'almacen' => Almacen::find(session('almacen'))
+        ];
         return view('ventas.index')->with($data);
     }
 

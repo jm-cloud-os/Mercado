@@ -32,11 +32,13 @@ Route::middleware(['auth'])->prefix('panel')->group(function() {
     Route::resource('productos', 'Productos\IndividualesController');
     Route::resource('paquetes', 'Productos\PaquetesController');
     Route::resource('ventas', 'VentasController');
-
+    
+    Route::resource('inventarios', 'InventariosController');
 
     Route::prefix('configuracion')->namespace('Settings')->group(function() {
         Route::resource('cupones', 'CuponesController');
         Route::resource('almacenes', 'AlmacenesController');
+        Route::post('almacenes/cambiar/venta', 'AlmacenesController@change')->name('almacenes.change');
         Route::resource('canales', 'CanalesController');
         Route::resource('calidades', 'CalidadesController');
     });

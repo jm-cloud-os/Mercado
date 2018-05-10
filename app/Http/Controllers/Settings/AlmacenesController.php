@@ -45,7 +45,7 @@ class AlmacenesController extends \App\Http\Controllers\Controller
         $almacen = mapModel(new Almacen(), $request->all());
         array_set($almacen, 'empresa_id', array_get(auth()->user(), 'empresa_id'));
         if($almacen->save()){
-            return redirect()->route('almacenes.edit', ['id' => array_get($almacen, 'id')]);
+            return redirect()->back()->with('message', 'Registro creado correctamente');
         }
         abort(500);
     }
@@ -86,7 +86,7 @@ class AlmacenesController extends \App\Http\Controllers\Controller
         mapModel($almacen, $request->all());
         
         if($almacen->save()){
-            return redirect()->route('almacenes.edit', ['id' => array_get($almacen, 'id')]);
+            return redirect()->back()->with('message', 'Registro actualizado correctamente');
         }
         abort(500);
     }
@@ -99,6 +99,12 @@ class AlmacenesController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-        //
+        Almacen::destroy($id);
+        return redirect()->back()->with('message', 'Registro borrado correctamente');
+    }
+    
+    public function change(Request $request) {
+        session(['almacen' => array_get($request, 'almacen_id')]);
+        return redirect()->back();
     }
 }

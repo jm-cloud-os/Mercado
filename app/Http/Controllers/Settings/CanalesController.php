@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use App\Modelos\Canal;
 
 class CanalesController extends \App\Http\Controllers\Controller
 {
@@ -13,7 +14,12 @@ class CanalesController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        //
+        $canales = Canal::paginate();
+        $data = [
+            'canales' => $canales
+        ];
+        
+        return view('settings.canales.index')->with($data);
     }
 
     /**
@@ -34,7 +40,11 @@ class CanalesController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        //
+        $canal = mapModel(new Canal(), $request->all());
+        if(auth()->user()->empresa->canales()->save($canal)){
+            return redirect()->back()->with('message', 'Registro creado correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -68,7 +78,12 @@ class CanalesController extends \App\Http\Controllers\Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $canal = Canal::findOrFail($id);
+        mapModel($canal, $request->all());
+        if($canal->update()){
+            return redirect()->back()->with('message', 'Registro actualizado correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -79,6 +94,7 @@ class CanalesController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-        //
+        Canal::destroy($id);
+        return redirect()->back()->with('message', 'Registro borrado correctamente');
     }
 }

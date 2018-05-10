@@ -1,6 +1,6 @@
 @include('productos.fragments.generales')
 @includeIf('productos.fragments.medidas')
-@includeIf('productos.fragments.inventario')
+
 
 @if($paquete)
 @includeIf('productos.fragments.paquete')

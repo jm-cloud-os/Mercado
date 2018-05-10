@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use App\Modelos\Calidad;
 
 class CalidadesController extends \App\Http\Controllers\Controller
 {
@@ -13,7 +14,12 @@ class CalidadesController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        //
+        $calidades = Calidad::paginate();
+        $data = [
+            'calidades' => $calidades
+        ];
+        
+        return view('settings.calidad.index')->with($data);
     }
 
     /**
@@ -34,7 +40,11 @@ class CalidadesController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        //
+        $calidad = mapModel(new Calidad(), $request->all());
+        if( auth()->user()->empresa->calidades()->save($calidad) ){
+            return redirect()->back()->with('message', 'Registro creada correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -68,7 +78,12 @@ class CalidadesController extends \App\Http\Controllers\Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $calidad = Calidad::findOrFail($id);
+        mapModel($calidad, $request->all());
+        if( $calidad->update() ){
+            return redirect()->back()->with('message', 'Registro actualizado correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -79,6 +94,7 @@ class CalidadesController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-        //
+        Calidad::destroy($id);
+        return redirect()->back()->with('message', 'Registro borrado correctamente');
     }
 }
