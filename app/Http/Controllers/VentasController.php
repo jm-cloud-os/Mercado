@@ -10,15 +10,14 @@ use Carbon\Carbon;
 use App\Statics\Catalogos;
 use App\Modelos\Almacen;
 
-class VentasController extends Controller
-{
+class VentasController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         
     }
 
@@ -27,8 +26,7 @@ class VentasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $data = [
             'almacenes' => Catalogos::almacenes(true),
             'almacen' => Almacen::find(session('almacen'))
@@ -42,28 +40,28 @@ class VentasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        
+    public function store(Request $request) {
+
         $productos = array_get($request, 'id');
         $cantidades = array_get($request, 'cantidad');
-        
+
         $venta = mapModel(new VentaMaestro(), $request->all());
         array_set($venta, 'user_id', array_get(auth()->user(), 'id'));
         array_set($venta, 'status', 'venta');
         array_set($venta, 'payed_at', Carbon::now());
+        array_set($venta, 'almacen_id', session('almacen'));
         auth()->user()->empresa->ventas()->save($venta);
-        
-        foreach ($productos as $key => $value){
+
+        foreach ($productos as $key => $value) {
             $producto = Producto::findOrFail($value);
-            if( array_get($producto, 'es_paquete') ){
-                foreach (array_get($producto, 'productos') as $item){
-                    $cantidad = $cantidades[$key] *  array_get($item, 'pivot.cantidad');
+            if (array_get($producto, 'es_paquete')) {
+                foreach (array_get($producto, 'productos') as $item) {
+                    $cantidad = $cantidades[$key] * array_get($item, 'pivot.cantidad');
                     $detalle = [
                         'empresa_id' => array_get(auth()->user(), 'empresa.id'),
                         'producto_id' => array_get($item, 'id'),
                         'nombre_producto' => array_get($item, 'nombre_es'),
-                        'cantidad' =>$cantidad,
+                        'cantidad' => $cantidad,
                         'precio' => array_get($item, 'precio_paquete'),
                         'paquete_id' => array_get($producto, 'id'),
                         'nombre_paquete' => array_get($producto, 'nombre_es'),
@@ -74,8 +72,7 @@ class VentasController extends Controller
                 }
                 $detalle = ['producto_id' => array_get($producto, 'id'), 'cantidad' => $cantidades[$key]];
                 $this->updateDisponibilidad($detalle);
-            }
-            else{
+            } else {
                 $detalle = [
                     'empresa_id' => array_get(auth()->user(), 'empresa.id'),
                     'producto_id' => array_get($producto, 'id'),
@@ -88,20 +85,23 @@ class VentasController extends Controller
         }
         return redirect()->route('ventas.create')->with('message', 'Venta realizada exitosamente');
     }
-    
+
     public function storeVentaProducto($venta, $detalle) {
         $ventaDetalle = mapModel(new VentaDetalle(), $detalle);
         $venta->productos()->save($ventaDetalle);
         $this->updateDisponibilidad($ventaDetalle);
     }
-    
+
     public function updateDisponibilidad($ventaDetalle) {
         $producto = Producto::findOrFail(array_get($ventaDetalle, 'producto_id'));
-        $disponibles = array_get($producto, 'disponibilidad', 0);
-        $vendidos = array_get($ventaDetalle, 'cantidad', 0);
-        $update = $disponibles - $vendidos;
-        array_set($producto, 'disponibilidad', $update);
-        $producto->update();
+        $inventario = array_get($producto, 'inventario');
+        if (!is_null($inventario)) {
+            $disponibles = array_get($inventario, 'cantidad', 0);
+            $vendidos = array_get($ventaDetalle, 'cantidad', 0);
+            $update = $disponibles - $vendidos;
+            array_set($inventario, 'cantidad', $update);
+            $inventario->update();
+        }
     }
 
     /**
@@ -110,8 +110,7 @@ class VentasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -121,8 +120,7 @@ class VentasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -133,8 +131,7 @@ class VentasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -144,8 +141,8 @@ class VentasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

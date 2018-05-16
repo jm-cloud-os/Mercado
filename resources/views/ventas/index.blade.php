@@ -128,7 +128,7 @@
                 alert('Debe cubrir el total del pago para continuar');
                 return false;
             }
-            $('input[name="total"]').val($('.pago-efectivo:last').val());
+            $('input[name="total"]').val($('.pago-efectivo:first').val());
             $('input[name="forma_pago"]').val('efectivo');
             $('#form-venta').submit();
         });
@@ -159,7 +159,7 @@
         });
 
         $('#input-search-items').autocomplete({
-            serviceUrl: "{{ route('autocomplete.productos') }}",
+            serviceUrl: "{{ route('autocomplete.ventas') }}",
             dataType: 'json',
             onSelect: function (suggestion) {
                 var row = '<tr>';

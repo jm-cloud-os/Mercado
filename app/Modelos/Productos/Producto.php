@@ -15,4 +15,8 @@ class Producto extends Base
     public function productos() {
         return $this->belongsToMany(Producto::class, 'paquete_producto', 'paquete_id', 'producto_id')->withPivot(['cantidad'])->withTimestamps();
     }
+    
+    public function inventario() {
+        return $this->hasOne(\App\Modelos\Inventario::class)->where('almacen_id', session('almacen'));
+    }
 }

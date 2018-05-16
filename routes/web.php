@@ -52,4 +52,6 @@ Route::prefix('ajax')->group(function() {
             'index' => 'autocomplete.productos'
         ]
     ]);
+    
+    Route::get('xproductos/ventas/productos', 'Ajax\ProductosController@ventas')->name('autocomplete.ventas');
 });
