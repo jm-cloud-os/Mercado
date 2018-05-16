@@ -5,6 +5,7 @@
 {{ Form::open(['route' => 'ventas.store', 'id' => 'form-venta']) }}
 {{ Form::hidden('total') }}
 {{ Form::hidden('forma_pago') }}
+{{ Form::hidden('canal', 'mostrador') }}
 
 <div class="bgc-white bd bdrs-3 p-20 mB-20">
     <div class="row">

@@ -24,6 +24,14 @@
     <small class="text-danger">@lang('productos.individuales.create.mensajes.error')</small>
     @endif
     @endif
+    
+    @if(!$paquete)
+    <div class="form-group {{ $errors->has('calidad') ? 'has-error' : '' }}">
+        {{ Form::label('calidad_id', 'Calidad') }}
+        {{ Form::select('calidad_id', $calidades, null, ['class' => 'form-control']) }}
+    </div>
+    @endif
+    
     <div class="form-group {{ $errors->has('clave') ? 'has-error' : '' }}">
         {{ Form::label('clave') }}
         {{ Form::text('clave', null, ['class' => 'form-control', 'autocomplete' => 'off', 'maxlength' => 190]) }}

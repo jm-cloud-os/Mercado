@@ -9,6 +9,7 @@ use App\Modelos\Ventas\VentaDetalle;
 use Carbon\Carbon;
 use App\Statics\Catalogos;
 use App\Modelos\Almacen;
+use App\Modelos\Canal;
 
 class VentasController extends Controller {
 
@@ -44,12 +45,21 @@ class VentasController extends Controller {
 
         $productos = array_get($request, 'id');
         $cantidades = array_get($request, 'cantidad');
+        
+        $canal = Canal::where('nombre', array_get($request, 'canal', 'mostrador'))->first();
+        if(is_null($canal)){
+            $canal = new Canal();
+            array_set($canal, 'empresa_id', array_get(auth()->user(), 'empres.id'));
+            array_set($canal, 'nombre', array_get($request, 'canal', 'mostrador'));
+            $canal->save();
+        }
 
         $venta = mapModel(new VentaMaestro(), $request->all());
         array_set($venta, 'user_id', array_get(auth()->user(), 'id'));
         array_set($venta, 'status', 'venta');
         array_set($venta, 'payed_at', Carbon::now());
         array_set($venta, 'almacen_id', session('almacen'));
+        array_set($venta, 'canal_id', array_get($canal, 'id'));
         auth()->user()->empresa->ventas()->save($venta);
 
         foreach ($productos as $key => $value) {

@@ -3,6 +3,7 @@
 namespace App\Statics;
 
 use App\Modelos\Almacen;
+use App\Modelos\Calidad;
 
 /**
  * Description of Catalogos
@@ -19,6 +20,16 @@ class Catalogos {
                     }, []);
         }
         return Almacen::all();
+    }
+    
+    public static function calidades($dropdown = false) {
+        if($dropdown){
+            return Calidad::all()->reduce(function($carry, $item) {
+                        $carry[array_get($item, 'id')] = array_get($item, 'nombre');
+                        return $carry;
+                    }, []);
+        }
+        return Calidad::all();
     }
 
 }

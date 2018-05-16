@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Modelos\Productos\Producto;
 use App\Http\Requests\Productos\Store;
+use App\Modelos\Calidad;
 
 class IndividualesController extends Controller
 {
@@ -30,11 +31,14 @@ class IndividualesController extends Controller
      */
     public function create()
     {
+        $calidades = \App\Statics\Catalogos::calidades(true);
         $data = [
             'producto' => null,
             'action' => 'create',
-            'paquete' => false
+            'paquete' => false,
+            'calidades' => $calidades
         ];
+        
         return view('productos.individuales.create')->with($data);
     }
 
@@ -95,10 +99,12 @@ class IndividualesController extends Controller
     public function edit($id)
     {
         $producto = Producto::findOrFail($id);
+        $calidades = \App\Statics\Catalogos::calidades(true);
         $data = [
             'producto' => $producto,
             'action' => 'update',
-            'paquete' => false
+            'paquete' => false,
+            'calidades' => $calidades
         ];
         
         return view('productos.individuales.edit')->with($data);
