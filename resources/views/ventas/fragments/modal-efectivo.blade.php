@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Pago en efectivo</h4>
+                <h4 class="modal-title">Cobrar</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,12 +18,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Su pago</label>
+                    <label>Efectivo</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input type="text" class="form-control input-lg pago-efectivo" value="0"/>
+                        <input id="EFECTIVO" type="text" class="form-control input-lg pago pago-efectivo" value="0"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tarjeta</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fas fa-dollar"></i>
+                        </span>
+                        <input id="TARJETA" type="text" class="form-control input-lg pago pago-tarjeta" value="0"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cheque</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fas fa-dollar"></i>
+                        </span>
+                        <input id="CHEQUE" type="text" class="form-control input-lg pago pago-cheque" value="0"/>
                     </div>
                 </div>
                 <div class="form-group has-warning">

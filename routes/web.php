@@ -32,6 +32,7 @@ Route::middleware(['auth'])->prefix('panel')->group(function() {
     Route::resource('productos', 'Productos\IndividualesController');
     Route::resource('paquetes', 'Productos\PaquetesController');
     Route::resource('ventas', 'VentasController');
+    Route::post('ventas/actualizar/configuracion', 'VentasController@change')->name('ventas.change');
     
     Route::resource('inventarios', 'InventariosController');
 

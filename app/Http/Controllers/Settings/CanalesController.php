@@ -41,6 +41,7 @@ class CanalesController extends \App\Http\Controllers\Controller
     public function store(Request $request)
     {
         $canal = mapModel(new Canal(), $request->all());
+        
         if(auth()->user()->empresa->canales()->save($canal)){
             return redirect()->back()->with('message', 'Registro creado correctamente');
         }

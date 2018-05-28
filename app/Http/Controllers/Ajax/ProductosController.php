@@ -15,11 +15,11 @@ class ProductosController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-
         $search = array_get($request, 'query');
         $builder = Producto::where(function($query) use($search) {
                     $query->where('clave', 'like', "%$search%")->orWhere('nombre_es', 'like', "%$search%");
                 });
+                /*
         $q = array_get($request, 'q');
         switch ($q) {
             case 'paquetes':
@@ -31,6 +31,8 @@ class ProductosController extends Controller {
             default :
                 break;
         }
+                 * 
+                 */
 
         $productos = $builder->get();
         $result = collect($productos)->reduce(function($carry, $item) {
@@ -52,7 +54,7 @@ class ProductosController extends Controller {
                     $query->where('clave', 'like', "%$search%")
                             ->orWhere('nombre_es', 'like', "%$search%")
                             ->orWhere('nombre_en', 'like', "%$search%");
-
+/*
                     switch ($q) {
                         case 'paquetes':
                             $query->where('es_paquete', true);
@@ -63,6 +65,8 @@ class ProductosController extends Controller {
                         default :
                             break;
                     }
+ * 
+ */
                 })->where('almacen_id', session('almacen'));
 
         $productos = $builder->get();

@@ -24,17 +24,13 @@
         </div>
         <div class="col-sm-6">
             <div id="floating-buttons" class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#almacenes-modal">
+                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#configuracion-modal">
                     <i class="fas fa-database"></i>
-                    @lang('Seleccionar almacen')
+                    @lang('Configurar ventas')
                 </button>
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-efectivo">
                     <i class="fas fa-money-bill-alt"></i>
-                    @lang('Efectivo')
-                </button>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-tarjeta-de-credito">
-                    <i class="fas fa-credit-card"></i>
-                    @lang('Tarjeta de crédito')
+                    @lang('Cobrar')
                 </button>
             </div>
         </div>
@@ -81,7 +77,7 @@
 
 @include('ventas.fragments.modal-efectivo')
 @include('ventas.fragments.modal-tarjeta-de-credito')
-@include('settings.almacenes.fragments.almacenes-modal')
+@include('ventas.fragments.configuracion-modal')
 
 @push('scripts')
 <script type="text/javascript">
@@ -101,8 +97,16 @@
 
         $('#total').find('span').html(total.toFixed(2));
         items = $('#venta').find('tbody').find('tr').length;
-        $('.pago-efectivo, .pago-tarjeta').val(total);
+        $('.pago-efectivo').val(total);
         $('.pago-efectivo').change();
+    }
+    
+    function cambio(){
+        var cambio = (parseFloat($('.pago-efectivo:last').val()) + parseFloat($('.pago-tarjeta').val()) + parseFloat($('.pago-cheque').val())) - $('.pago-efectivo:first').val();
+        console.log($('.pago-efectivo:last').val() , $('.pago-tarjeta').val() , $('.pago-cheque').val());
+        
+        $('.pago-efectivo-cambio').val(cambio);
+        return cambio;
     }
     
     (function () {
@@ -112,25 +116,32 @@
         @endif
 
         $('#modal-efectivo').on('shown.bs.modal', function () {
-            $('.pago-efectivo:last').focus().select();
+            setTimeout(function(){
+                $('.pago-efectivo:last').focus().select();
+            });
         });
-
-        $('.pago-efectivo:last').on('change', function (e) {
-            var cambio = $('.pago-efectivo:last').val() - $('.pago-efectivo:first').val();
-            $('.pago-efectivo-cambio').val(cambio);
+        
+        
+        $('.pago').on('change', function (e) {
+            cambio();
         }).on('keyup', function (e) {
-            var cambio = $('.pago-efectivo:last').val() - $('.pago-efectivo:first').val();
-            $('.pago-efectivo-cambio').val(cambio);
+            cambio();
         });
 
         $('#btn-submit-venta-efectivo').on('click', function (e) {
-            var cambio = $('.pago-efectivo:last').val() - $('.pago-efectivo:first').val();
-            if (cambio < 0) {
+            if (cambio() < 0) {
                 alert('Debe cubrir el total del pago para continuar');
                 return false;
             }
             $('input[name="total"]').val($('.pago-efectivo:first').val());
-            $('input[name="forma_pago"]').val('efectivo');
+            
+            var formas = [];
+            $('.pago').each(function(index, item){
+                var pago = {forma: item.id, valor: item.value};
+                formas.push(pago);
+            });
+            
+            $('input[name="forma_pago"]').val(JSON.stringify(formas));
             $('#form-venta').submit();
         });
 
