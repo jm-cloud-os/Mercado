@@ -25,7 +25,7 @@ Route::get('change/language/{locale}', function ($locale) {
 })->name('change.language');
 
 Auth::routes();
-Route::middleware(['auth'])->prefix('panel')->group(function() {
+Route::middleware(['auth'])->group(function() {
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::resource('todos', 'Productos\TodosController');
