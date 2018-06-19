@@ -9,12 +9,30 @@
             </div>
             <div class="modal-body">
                 <div class="form-group has-success">
+                    <label>Subtotal</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fas fa-dollar"></i>
+                        </span>
+                        <input type="text" class="form-control subtotal" readonly=""/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descuento</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fas fa-dollar"></i>
+                        </span>
+                        <input id="DESCUENTO" type="text" class="form-control descuento bg-warning" value="0"/>
+                    </div>
+                </div>
+                <div class="form-group has-success">
                     <label>Total</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input type="text" class="form-control input-lg pago-efectivo" value="0" readonly=""/>
+                        <input type="text" class="form-control total" value="0" readonly=""/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -23,7 +41,7 @@
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input id="EFECTIVO" type="text" class="form-control input-lg pago pago-efectivo" value="0"/>
+                        <input id="EFECTIVO" type="text" class="form-control pago pago-efectivo" value="0"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -32,7 +50,7 @@
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input id="TARJETA" type="text" class="form-control input-lg pago pago-tarjeta" value="0"/>
+                        <input id="TARJETA" type="text" class="form-control pago pago-tarjeta" value="0"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -41,7 +59,7 @@
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input id="CHEQUE" type="text" class="form-control input-lg pago pago-cheque" value="0"/>
+                        <input id="CHEQUE" type="text" class="form-control pago pago-cheque" value="0"/>
                     </div>
                 </div>
                 <div class="form-group has-warning">
@@ -50,7 +68,7 @@
                         <span class="input-group-addon">
                             <i class="fas fa-dollar"></i>
                         </span>
-                        <input type="text" class="form-control input-lg pago-efectivo-cambio" readonly=""/>
+                        <input type="text" class="form-control cambio" readonly=""/>
                     </div>
                 </div>
             </div>

@@ -44,6 +44,7 @@ class VentasController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        
         $productos = array_get($request, 'id');
         $cantidades = array_get($request, 'cantidad');
         
@@ -62,10 +63,17 @@ class VentasController extends Controller {
         array_set($venta, 'almacen_id', session('almacen'));
         array_set($venta, 'canal_id', array_get($canal, 'id'));
         auth()->user()->empresa->ventas()->save($venta);
+
+        $total = array_get($venta, 'total', 0);
         
         $pagos = json_decode(array_get($request, 'forma_pago', '[]'), true);
         foreach ($pagos as $pago){
             if(array_get($pago, 'valor') > 0){
+                if(array_get($pago, 'forma') == 'DESCUENTO'){
+                    $total = $total - array_get($pago, 'valor', 0);
+                    array_set($venta, 'total', $total);
+                    $venta->update();
+                }
                 $forma = new \App\Modelos\FormaPago();
                 array_set($forma, 'forma', array_get($pago, 'forma'));
                 array_set($forma, 'cantidad', array_get($pago, 'valor'));

@@ -6,6 +6,7 @@
 {{ Form::hidden('total') }}
 {{ Form::hidden('forma_pago') }}
 {{ Form::hidden('canal', 'mostrador') }}
+{{ Form::hidden('descuento') }}
 
 <div class="bgc-white bd bdrs-3 p-20 mB-20">
     <div class="row">
@@ -97,18 +98,42 @@
 
         $('#total').find('span').html(total.toFixed(2));
         items = $('#venta').find('tbody').find('tr').length;
-        $('.pago-efectivo').val(total);
-        $('.pago-efectivo').change();
+        
+        $('.subtotal').val(total);
+        $('.total').val(total);
+        //$('.pago-efectivo').val(total);
+        //$('.total').val(total);
+        //$('.pago-efectivo').change();
+        
     }
-    
+    /*
     function cambio(){
-        var cambio = (parseFloat($('.pago-efectivo:last').val()) + parseFloat($('.pago-tarjeta').val()) + parseFloat($('.pago-cheque').val())) - $('.pago-efectivo:first').val();
-        console.log($('.pago-efectivo:last').val() , $('.pago-tarjeta').val() , $('.pago-cheque').val());
+        var cambio = (parseFloat($('.subtotal').val()) + parseFloat($('.pago-tarjeta').val()) + parseFloat($('.pago-cheque').val())) - $('.pago-efectivo:first').val();
+        console.log($('.subtotal').val() , $('.pago-tarjeta').val() , $('.pago-cheque').val());
         
         $('.pago-efectivo-cambio').val(cambio);
         return cambio;
     }
-    
+    */
+    function cambio(){
+        var total = parseFloat($('.total').val()) || 0;
+        var efectivo = parseFloat($('.pago-efectivo').val()) || 0;
+        var tarjeta = parseFloat($('.pago-tarjeta').val()) || 0;
+        var cheque = parseFloat($('.pago-cheque').val()) || 0;
+        var pago = efectivo + tarjeta + cheque;
+        var cambio = pago - total;
+        $('.cambio').val(cambio);
+        return cambio;
+    }
+
+    function descuento(){
+        var subtotal = parseFloat($('.subtotal').val()) || 0;
+        var descuento = parseFloat($('.descuento').val()) || 0;
+        var total = subtotal - descuento;
+        console.log(subtotal, descuento, total);
+        $('.total').val(total);
+    }
+
     (function () {
         
         @if( !session('almacen') )
@@ -117,10 +142,9 @@
 
         $('#modal-efectivo').on('shown.bs.modal', function () {
             setTimeout(function(){
-                $('.pago-efectivo:last').focus().select();
+                $('.subtotal').focus().select();
             });
         });
-        
         
         $('.pago').on('change', function (e) {
             cambio();
@@ -128,12 +152,19 @@
             cambio();
         });
 
+        $('.descuento').on('change', function (e) {
+            descuento();
+        }).on('keyup', function (e) {
+            descuento();
+        });
+
         $('#btn-submit-venta-efectivo').on('click', function (e) {
             if (cambio() < 0) {
                 alert('Debe cubrir el total del pago para continuar');
                 return false;
             }
-            $('input[name="total"]').val($('.pago-efectivo:first').val());
+            $('input[name="total"]').val($('.subtotal').val());
+            $('input[name="descuento"]').val($('.descuento').val());
             
             var formas = [];
             $('.pago').each(function(index, item){
