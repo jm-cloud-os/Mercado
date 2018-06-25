@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal-efectivo" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-success">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Cobrar</h4>
@@ -8,6 +8,17 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group has-success">
+                    <label>Cliente</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control autocompletar-cliente"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary btn-autocompletar-cliente" type="button" data-toggle="modal" data-target="#modal-nuevo-cliente">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group has-success">
                     <label>Subtotal</label>
                     <div class="input-group">

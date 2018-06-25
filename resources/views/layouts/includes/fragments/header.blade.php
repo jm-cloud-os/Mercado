@@ -16,6 +16,7 @@
                 <input class="form-control" type="text" placeholder="Search...">
             </li>
         </ul>
+<!--
         <ul class="nav-right">
             <li class="notifications dropdown">
                 <span class="counter bgc-red">3</span>
@@ -219,5 +220,6 @@
                 </ul>
             </li>
         </ul>
+    -->
     </div>
 </div>

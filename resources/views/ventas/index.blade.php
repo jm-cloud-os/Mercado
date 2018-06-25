@@ -7,6 +7,7 @@
 {{ Form::hidden('forma_pago') }}
 {{ Form::hidden('canal', 'mostrador') }}
 {{ Form::hidden('descuento') }}
+{{ Form::hidden('cliente_id') }}
 
 <div class="bgc-white bd bdrs-3 p-20 mB-20">
     <div class="row">
@@ -77,7 +78,7 @@
 {{ Form::close() }}
 
 @include('ventas.fragments.modal-efectivo')
-@include('ventas.fragments.modal-tarjeta-de-credito')
+@include('ventas.fragments.modal-nuevo-cliente')
 @include('ventas.fragments.configuracion-modal')
 
 @push('scripts')
@@ -240,6 +241,49 @@
             save = true;
         });
 
+        $('.autocompletar-cliente').autocomplete({
+                serviceUrl: "{{ route('autocomplete.clientes') }}",
+                dataType: 'json',
+                onSelect: function (suggestion) {
+                    $('input[name="cliente_id"]').val(suggestion.data.id);
+                }
+            }
+        );
+
+        $('.btn-nuevo-cliente').on('click', function(e){
+            var data = {};
+            var stop = false;
+            $('#modal-nuevo-cliente').find('.cliente').each(function(index, item){
+                if($(this).prop('required') && $(this).val().trim() == ''){
+                    alert('El campo ['+item.name+'] es requerido');
+                    $(this).focus();
+                    stop = true;
+                    return false;
+                }
+                data[item.name] = item.value;
+            });
+            if(stop){
+                return false;
+            }
+            $.ajax({
+                method: "POST",
+                url: "{{ route('clientes.store') }}",
+                data: data
+            }).done(function(response){
+                console.log(response);
+                if(response.hasOwnProperty('id')){
+                    $('input[name="cliente_id"]').val(response.id);
+                    $('.autocompletar-cliente').val(response.nombre);
+                    $('#modal-nuevo-cliente').toggle();
+                    $('.cliente').val('');
+                }
+                else{
+                    alert("No se pudo guardar el cliente, intente de nuevo más tarde");
+                }
+            }).fail(function(response){
+                console.log(response.responseText);
+            });
+        });
     })();
 
 </script>

@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('paquetes', 'Productos\PaquetesController');
     Route::resource('ventas', 'VentasController');
     Route::post('ventas/actualizar/configuracion', 'VentasController@change')->name('ventas.change');
+    Route::resource('clientes', 'ClientesController');
     
     Route::resource('inventarios', 'InventariosController');
 
@@ -55,4 +56,5 @@ Route::prefix('ajax')->group(function() {
     ]);
     
     Route::get('xproductos/ventas/productos', 'Ajax\ProductosController@ventas')->name('autocomplete.ventas');
+    Route::get('xclientes/search', 'ClientesController@search')->name('autocomplete.clientes');
 });

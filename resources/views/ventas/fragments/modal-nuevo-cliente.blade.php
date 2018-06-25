@@ -1,4 +1,4 @@
-<div class="modal modal-info fade" id="modal-tarjeta-de-credito" tabindex="-1">
+<div class="modal modal-info fade" id="modal-nuevo-cliente" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,11 +8,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                @include('clientes.fragments.form')
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark pull-left" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn btn-success btn-nuevo-cliente" data-dismiss="modal">Guardar</button>
             </div>
         </div>
         <!-- /.modal-content -->
