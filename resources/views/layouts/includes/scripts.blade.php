@@ -48,6 +48,10 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $('.clickeable-row').on('click', function(e){
+        window.location.href = $(this).data('url');
+    });
 });
 </script>
 

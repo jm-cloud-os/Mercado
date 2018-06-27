@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use App\Modelos\Cupon;
+use Carbon\Carbon;
 
 class CuponesController extends \App\Http\Controllers\Controller
 {
@@ -13,7 +15,9 @@ class CuponesController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        
+        $series = Cupon::select('serie')->groupBy('serie')->paginate();
+        $data = ['series' => $series];
+        return view('settings.cupones.index')->with($data);
     }
 
     /**
@@ -34,7 +38,14 @@ class CuponesController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        //
+        $total = array_get($request, 'cantidad', 0);
+        for($i = 1; $i <= $total; $i++){
+            $cupon = mapModel(new Cupon(), $request->all());
+            array_set($cupon, 'empresa_id', array_get(auth()->user(), 'empresa_id'));
+            array_set($cupon, 'codigo', strtoupper(str_random(10)));
+            $cupon->save();
+        }
+        return redirect()->back()->with('message', "Se crearon $total cupones nuevos");
     }
 
     /**
@@ -45,7 +56,13 @@ class CuponesController extends \App\Http\Controllers\Controller
      */
     public function show($id)
     {
-        //
+        $cupones = Cupon::where('serie', $id)->paginate();
+        $serie = Cupon::where('serie', $id)->first();
+        $data = [
+            'cupones' => $cupones,
+            'serie' => $serie
+        ];
+        return view('settings.cupones.show')->with($data);
     }
 
     /**
@@ -77,8 +94,18 @@ class CuponesController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $delete = array_get($request, 'delete');
+
+        if($delete == 'serie'){
+            Cupon::where('serie', $id)->update(['deleted_at' => Carbon::now()]);
+            return redirect()->route('cupones.index')->with('message', 'Serie eliminada correctamente');
+        }
+
+        if($delete == 'cupon'){
+            Cupon::destroy($id);
+            return redirect()->back()->with('message', 'Cup&oacute;n eliminado correctamente');
+        }
     }
 }

@@ -117,6 +117,11 @@
                             <span>Control de calidad</span>
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a href="{{ route('cupones.index') }}">
+                            <span>Cupones de descuento</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
