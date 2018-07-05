@@ -3,6 +3,7 @@
 namespace App\Modelos\Productos;
 
 use App\Modelos\Base;
+use App\Modelos\Categoria;
 
 class Producto extends Base
 {
@@ -18,5 +19,9 @@ class Producto extends Base
     
     public function inventario() {
         return $this->hasOne(\App\Modelos\Inventario::class)->where('almacen_id', session('almacen'));
+    }
+
+    public function categorias(){
+        return $this->belongsToMany(Categoria::class);
     }
 }

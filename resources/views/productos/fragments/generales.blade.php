@@ -62,8 +62,33 @@
         <textarea name="descripcion_larga_en" class="summernote">{{ array_get($producto, 'descripcion_larga_en') }}</textarea>
     </div>
     <div class="form-group">
+        <label>Categorias</label>
+        <select class="tokenize-demo" multiple="" style="display: none;">
+            @foreach($categorias as $categoria)
+                <option value="{{ array_get($categoria, 'id') }}">{{ array_get($categoria, 'nombre') }}</option>
+            @endforeach
+          </select>
+          {{ Form::hidden('categorias') }}
+    </div>
+    <div class="form-group">
         <label>Video</label>
         {{ Form::textarea('video', null, ['class' => 'form-control']) }}
     </div>
 
 </div>
+@push('scripts')
+<script>
+    (function(){
+        $('.tokenize-demo').tokenize2();
+        $('#create-item').on('submit', function(){
+            var categorias = [];
+            $('ul.tokens-container').find('li.token').each(function(i){
+                var value = $(this).data('value');
+                console.log(value);
+                categorias.push(value);
+            });
+            $('input[name="categorias"]').val(JSON.stringify(categorias));
+        });
+    })();
+</script>
+@endpush

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Modelos\Productos\Producto;
 use App\Http\Requests\Productos\Store;
 use App\Modelos\Calidad;
+use App\Modelos\Categoria;
 
 class IndividualesController extends Controller
 {
@@ -36,7 +37,8 @@ class IndividualesController extends Controller
             'producto' => null,
             'action' => 'create',
             'paquete' => false,
-            'calidades' => $calidades
+            'calidades' => $calidades,
+            'categorias' => Categoria::all()
         ];
         
         return view('productos.individuales.create')->with($data);
@@ -50,6 +52,7 @@ class IndividualesController extends Controller
      */
     public function store(Store $request)
     {
+        
         $producto = mapModel(new Producto(), $request->all());
         array_set($producto, 'empresa_id', array_get(auth()->user(), 'empresa_id'));
         
@@ -68,6 +71,8 @@ class IndividualesController extends Controller
         }
         
         if( $producto->save() ){
+            $categorias = json_decode(array_get($request, 'categorias', '[]'));
+            $producto->categorias()->sync($categorias, false);
             return redirect()->route('productos.edit', ['id' => array_get($producto, 'id')])->with('success', 'Producto creado correctamente');
         }
         
@@ -104,7 +109,8 @@ class IndividualesController extends Controller
             'producto' => $producto,
             'action' => 'update',
             'paquete' => false,
-            'calidades' => $calidades
+            'calidades' => $calidades,
+            'categorias' => Categoria::all()
         ];
         
         return view('productos.individuales.edit')->with($data);

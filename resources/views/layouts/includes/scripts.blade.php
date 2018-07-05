@@ -4,6 +4,7 @@
 <script src="{{ asset('public/js/vendor.js') }}"></script>
 <script src="{{ asset('public/js/bundle.js') }}"></script>
 <script src="{{ asset('public/js/libraries/jquery.autocomplete.min.js') }}"></script>
+<script src="{{ asset('public/js/libraries/tokenize2/tokenize2.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
 <script type="text/javascript">

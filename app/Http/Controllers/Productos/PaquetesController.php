@@ -34,7 +34,8 @@ class PaquetesController extends Controller
         $data = [
             'producto' => null,
             'action' => 'create',
-            'paquete' => true
+            'paquete' => true,
+            'categorias' => Categoria::all()
         ];
         return view('productos.paquetes.create')->with($data);
     }
@@ -79,7 +80,8 @@ class PaquetesController extends Controller
         $data = [
             'producto' => $paquete,
             'action' => 'update',
-            'paquete' => true
+            'paquete' => true,
+            'categorias' => Categoria::all()
         ];
         
         return view('productos.paquetes.edit')->with($data);
@@ -134,7 +136,8 @@ class PaquetesController extends Controller
         }
         
         is_null($id) ? $paquete->save() : $paquete->update();
-        
+        $categorias = json_decode(array_get($request, 'categorias', '[]'));
+        $paquete->categorias()->sync($categorias, false);
         try {
             $productos = array_get($request, 'productos');
             $cantidad = array_get($request, 'cantidad');
