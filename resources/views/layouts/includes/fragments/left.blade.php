@@ -113,6 +113,11 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
+                            <a href="{{ route('categorias.index') }}">
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+                    <li class="nav-item dropdown">
                         <a href="{{ route('calidades.index') }}">
                             <span>Control de calidad</span>
                         </a>

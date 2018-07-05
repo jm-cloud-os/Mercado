@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{ Form::model($producto, ['route' => ['productos.update', array_get($producto, 'id')], 'method' => 'PUT']) }}
+{{ Form::model($producto, ['route' => ['productos.update', array_get($producto, 'id')], 'method' => 'PUT', 'id' => 'create-item']) }}
 <section class="content-header">
     <div id="floating-buttons" class="btn-group pull-right" role="group">
         <a href="{{ route('productos.index') }}" class="btn btn-dark">

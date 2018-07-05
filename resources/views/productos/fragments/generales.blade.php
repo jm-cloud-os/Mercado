@@ -65,7 +65,7 @@
         <label>Categorias</label>
         <select class="tokenize-demo" multiple="" style="display: none;">
             @foreach($categorias as $categoria)
-                <option value="{{ array_get($categoria, 'id') }}">{{ array_get($categoria, 'nombre') }}</option>
+                <option {{ in_array(array_get($categoria, 'id'), $producto_tiene_categorias) ? 'selected':'' }} value="{{ array_get($categoria, 'id') }}">{{ array_get($categoria, 'nombre') }}</option>
             @endforeach
           </select>
           {{ Form::hidden('categorias') }}
@@ -79,7 +79,9 @@
 @push('scripts')
 <script>
     (function(){
-        $('.tokenize-demo').tokenize2();
+        $('.tokenize-demo').tokenize2({
+            placeholder: 'Escribe para ver las categorías.'
+        });
         $('#create-item').on('submit', function(){
             var categorias = [];
             $('ul.tokens-container').find('li.token').each(function(i){

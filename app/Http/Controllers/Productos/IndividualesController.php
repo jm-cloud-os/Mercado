@@ -72,7 +72,7 @@ class IndividualesController extends Controller
         
         if( $producto->save() ){
             $categorias = json_decode(array_get($request, 'categorias', '[]'));
-            $producto->categorias()->sync($categorias, false);
+            $producto->categorias()->sync($categorias);
             return redirect()->route('productos.edit', ['id' => array_get($producto, 'id')])->with('success', 'Producto creado correctamente');
         }
         
@@ -105,12 +105,15 @@ class IndividualesController extends Controller
     {
         $producto = Producto::findOrFail($id);
         $calidades = \App\Statics\Catalogos::calidades(true);
+        $productoTieneCategorias = array_pluck($producto->categorias, 'id');
+        
         $data = [
             'producto' => $producto,
             'action' => 'update',
             'paquete' => false,
             'calidades' => $calidades,
-            'categorias' => Categoria::all()
+            'categorias' => Categoria::all(),
+            'producto_tiene_categorias' => $productoTieneCategorias
         ];
         
         return view('productos.individuales.edit')->with($data);
@@ -143,6 +146,8 @@ class IndividualesController extends Controller
         }
         
         if( $producto->update() ){
+            $categorias = json_decode(array_get($request, 'categorias', '[]'));
+            $producto->categorias()->sync($categorias);
             return redirect()->route('productos.edit', ['id' => $id])->with('success', 'Producto actualizado correctamente');
         }
         abort(500);

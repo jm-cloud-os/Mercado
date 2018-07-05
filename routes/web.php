@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('almacenes/cambiar/venta', 'AlmacenesController@change')->name('almacenes.change');
         Route::resource('canales', 'CanalesController');
         Route::resource('calidades', 'CalidadesController');
+        Route::resource('categorias', 'CategoriasController');
     });
 });
 

@@ -27,6 +27,10 @@ class Empresa extends Model
     public function calidades() {
         return $this->hasMany(Calidad::class);
     }
+
+    public function categorias() {
+        return $this->hasMany(Categoria::class);
+    }
     
     public function inventarios() {
         return $this->hasMany(Inventario::class);

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Modelos\Categoria;
 
 class CategoriasController extends Controller
 {
@@ -13,7 +15,12 @@ class CategoriasController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categoria::paginate();
+        $data = [
+            'categorias' => $categorias
+        ];
+        
+        return view('settings.categorias.index')->with($data);
     }
 
     /**
@@ -34,7 +41,11 @@ class CategoriasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $calidad = mapModel(new Categoria(), $request->all());
+        if( auth()->user()->empresa->categorias()->save($calidad) ){
+            return redirect()->back()->with('message', 'Registro creado correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -68,7 +79,12 @@ class CategoriasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        mapModel($categoria, $request->all());
+        if( $categoria->update() ){
+            return redirect()->back()->with('message', 'Registro actualizado correctamente');
+        }
+        abort(500);
     }
 
     /**
@@ -79,6 +95,7 @@ class CategoriasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Categoria::destroy($id);
+        return redirect()->back()->with('message', 'Registro borrado correctamente');
     }
 }

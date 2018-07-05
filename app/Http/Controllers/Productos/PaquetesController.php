@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Modelos\Productos\Producto;
 use App\Modelos\Productos\PaqueteProducto;
 use App\Http\Requests\Productos\Store;
+use App\Modelos\Categoria;
 
 class PaquetesController extends Controller
 {
@@ -76,12 +77,14 @@ class PaquetesController extends Controller
     public function edit($id)
     {
         $paquete = Producto::findOrFail($id);
+        $productoTieneCategorias = array_pluck($paquete->categorias, 'id');
         
         $data = [
             'producto' => $paquete,
             'action' => 'update',
             'paquete' => true,
-            'categorias' => Categoria::all()
+            'categorias' => Categoria::all(),
+            'producto_tiene_categorias' => $productoTieneCategorias
         ];
         
         return view('productos.paquetes.edit')->with($data);
@@ -137,7 +140,7 @@ class PaquetesController extends Controller
         
         is_null($id) ? $paquete->save() : $paquete->update();
         $categorias = json_decode(array_get($request, 'categorias', '[]'));
-        $paquete->categorias()->sync($categorias, false);
+        $paquete->categorias()->sync($categorias);
         try {
             $productos = array_get($request, 'productos');
             $cantidad = array_get($request, 'cantidad');
